@@ -9,13 +9,11 @@ module.exports = function registerEndpoint(
 
   router.post("/", async (req, res, next) => {
     const db = [];
-    for (let i = 0; i < req.body,productos.length; i++) {
-      console.log(req.body.productos[i]);
+    for (let i = 0; i < req.body.productos.length; i++) {
       const dato = await database
         .table("productos_comprados")
         .where("id", req.body.productos[i].id)
         .update({ cantidad_ingresada: req.body.productos[i].cantidad });
-      console.log(dato);
       db.push(dato);
     }
     res.json(db);
