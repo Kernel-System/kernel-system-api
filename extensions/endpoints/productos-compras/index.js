@@ -14,7 +14,7 @@ module.exports = function registerEndpoint(
       const dato = await database
         .table("productos_comprados")
         .where("id", req.body,productos[i].id)
-        .update({ cantidad_ingresada: req.body,productos[i].cantidad });
+        .update({ cantidad_ingresada: req.body.productos[i].cantidad });
       console.log(dato);
       db.push(dato);
     }
