@@ -11,15 +11,15 @@ module.exports = function registerEndpoint(
     const db = [];
     for (let i = 0; i < req.body.productos.length; i++) {
       const datoSuma = await database
-        .table("productos_comprados")
+        .table("productos_venta")
         .where("id", req.body.productos[i].id)
-        .select("cantidad_ingresada");
+        .select("cantidad_entregada");
       const dato = await database
-        .table("productos_comprados")
+        .table("productos_venta")
         .where("id", req.body.productos[i].id)
         .update({
-          cantidad_ingresada:
-            datoSuma[0].cantidad_ingresada + req.body.productos[i].cantidad,
+          cantidad_entregada:
+            datoSuma[0].cantidad_entregada + req.body.productos[i].cantidad,
         });
       db.push(dato);
     }
