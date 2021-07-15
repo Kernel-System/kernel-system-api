@@ -8,22 +8,27 @@ module.exports = function registerEndpoint(
   //const { ServiceUnavailableException } = exceptions;
 
   router.post("/", async (req, res, next) => {
-    const db = [];
-    for (let i = 0; i < req.body.productos.length; i++) {
-      const datoSuma = await database
-        .table("productos_venta")
-        .where("id", req.body.productos[i].id)
-        .select("cantidad_entregada");
-      const dato = await database
-        .table("productos_venta")
-        .where("id", req.body.productos[i].id)
-        .update({
-          cantidad_entregada:
-            datoSuma[0].cantidad_entregada + req.body.productos[i].cantidad,
-        });
-      db.push(dato);
+    try {
+      const db = [];
+      for (let i = 0; i < req.body.productos.length; i++) {
+        const datoSuma = await database
+          .table("productos_venta")
+          .where("id", req.body.productos[i].id)
+          .select("cantidad_entregada");
+        const dato = await database
+          .table("productos_venta")
+          .where("id", req.body.productos[i].id)
+          .update({
+            cantidad_entregada:
+              datoSuma[0].cantidad_entregada + req.body.productos[i].cantidad,
+          });
+        db.push(dato);
+      }
+      res.json(db);
+    } catch (error) {
+      res.json({ error: "No se ha encontrado el id del producto" });
     }
-    res.json(db);
+
     //console.log(res);
     //const ejemplo = await database.select("*").from("empleados");
   });
